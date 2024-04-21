@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import DocumentsScreen from "./screens/DocumentsScreen";
 import HomeScreen from "./screens/HomeScreen";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,8 +15,14 @@ const App = () => {
           name="HomeScreen"
           component={HomeScreen}
           options={({ navigation }) => ({
-            title: "API",
-            headerTitleStyle: styles.headerTitle,
+            headerTitle: () => (
+              <Image
+                source={{
+                  uri: "https://static.vecteezy.com/system/resources/previews/008/249/584/original/modern-hexagon-technology-logo-design-template-vector.jpg",
+                }}
+                style={styles.logo}
+              />
+            ),
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => navigation.navigate("DocumentsScreen")}
@@ -55,6 +61,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     color: "#D62839",
+  },
+  logo: {
+    width: 150,
+    height: 40,
+    resizeMode: "contain",
+    marginLeft: -50
   },
 });
 

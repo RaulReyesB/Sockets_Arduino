@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-const socket = new WebSocket("ws://192.168.1.69:81");
+const socket = new WebSocket("ws://192.168.1.139:81");
 
 export default function App() {
   const [isConnected, setIsConnected] = useState(false);
@@ -56,10 +56,6 @@ export default function App() {
     socket.send(JSON.stringify({ ledStatus: newLEDStatus }));
   };
 
-  const verDocumentosGuardados = () => {
-    // Aquí deberías navegar a la pantalla de documentos guardados
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -78,15 +74,16 @@ export default function App() {
         <Text style={styles.data}>Temperatura: {temperatureData}</Text>
         <Text style={styles.data}>Distancia: {mq2Data}</Text>
         <Text style={styles.data}>
-          PIR Value: {pirData ? "Activado" : "Desactivado"}
+          Led Value: {pirData ? "Encendido" : "Apagado"}
         </Text>
         <View style={styles.buttonContainer}>
-          <Button title="Enviar" onPress={enviarDatos} />
+          <Button title="Enviar" onPress={enviarDatos} color="#b52c00" />
         </View>
         <View style={styles.buttonContainer}>
           <Button
             title={pirData ? "Apagar LED" : "Encender LED"}
             onPress={toggleLED}
+            color="#b52c00"
           />
         </View>
         <StatusBar style="auto" />

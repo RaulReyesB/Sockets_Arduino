@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, Image } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function DocumentsScreen() {
   const [data, setData] = useState([]);
@@ -15,29 +16,50 @@ export default function DocumentsScreen() {
         throw new Error("Failed to fetch data");
       }
       const jsonData = await response.json();
-      setData(jsonData.sockets); // Asignar jsonData.sockets en lugar de jsonData
+      setData(jsonData.sockets);
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: "#EBC497" }]}>
+      <Image
+        source={{
+          uri: "https://static.vecteezy.com/system/resources/previews/000/425/287/original/vector-save-icon.jpg",
+        }}
+        style={styles.logo}
+      />
       <Text style={styles.title}>Documentos Guardados</Text>
       <FlatList
         data={data}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text>Humedad: {item.humidity}</Text>
-            <Text>Temperatura: {item.temperature}</Text>
-            <Text>Distancia: {item.distance}</Text>
-            <Text>
-              Estado LED: {item.ledStatus ? "Activado" : "Desactivado"}
-            </Text>
+          <View style={styles.card}>
+            <View style={styles.cardRow}>
+              <Icon name="tint" size={20} color="#333" style={styles.icon} />
+              <Text style={styles.cardText}>Humedad: {item.humidity}</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Icon name="thermometer-half" size={20} color="#333" style={styles.icon} />
+              <Text style={styles.cardText}>Temperatura: {item.temperature}</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Icon name="ruler" size={20} color="#333" style={styles.icon} />
+              <Text style={styles.cardText}>Distancia: {item.distance}</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Icon name="lightbulb" size={20} color={item.ledStatus ? "#FFD700" : "#808080"} style={styles.icon} />
+              <Text style={styles.cardText}>
+                Estado LED: {item.ledStatus ? "Activado" : "Desactivado"}
+              </Text>
+            </View>
           </View>
         )}
         keyExtractor={(item) => item._id.toString()}
       />
+      <View style={styles.algo}>
+
+      </View>
     </View>
   );
 }
@@ -45,18 +67,45 @@ export default function DocumentsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 50,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
   },
-  item: {
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+  logo: {
+    width: 80,
+    height: 80,
+    marginBottom: 20,
+    borderRadius: 40, 
+  },
+  card: {
+    backgroundColor: "#FFF",
+    padding: 18,
+    marginBottom: 5,
+    borderRadius: 5,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardText: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  icon: {
+    marginRight: 10,
+  },
+  cardRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
   },
 });
